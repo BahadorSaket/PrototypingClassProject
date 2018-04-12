@@ -49,40 +49,9 @@ class Transformer(ast.NodeTransformer):
 	])
 
 def get_post_MLmodels():
-	print model
-	print "bahador"
-	
-		
-@app.route('/predictionRatingHistogram', methods = ['POST'])
-def get_post_MlModel():
-	path ='data/prediction' # use your path
-	allPredictionFiles = glob.glob(path + "/*.csv")
+	print "hellow word"
 
-	frame = pd.DataFrame()
-	list_ = []
-	bins_list = []
-	HisPredData = []
-	HisDeltaData = []
-	index =1;
-	rows=45000;
 
-	learningData = pd.read_csv("data/learning/learningData.csv",index_col=None, header=0)
-	learningData = learningData.iloc[0:rows]
-
-	for file_ in allPredictionFiles:  #goes through every single model in the folder
-		df = pd.read_csv(file_,index_col=None, header=0)  # reads the content of the files
-		df = df.rename(index=str, columns={"rating": "predictedRating"}) # change the col
-		df = df.iloc[0:rows]
-		df_join = pd.merge(learningData, df, on='d3mIndex', how='right')
-		df_join = df_join.fillna(0);
-		df_delta = df_join['predictedRating'] - df_join['rating']
-		HisPredData.append(df["predictedRating"].tolist())
-		HisDeltaData.append(df_delta.tolist())
-	data1 = json.dumps(HisPredData)
-	data2 = json.dumps(HisDeltaData)
-	return jsonify({"predictData":data1, "deltaData":data2 })
-
-        
 if __name__ == "__main__":    	
     import warnings
     warnings.filterwarnings("ignore")	
